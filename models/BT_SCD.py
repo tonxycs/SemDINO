@@ -376,7 +376,7 @@ class BTSCD(nn.Module):
 #     x2 = torch.randn(1, 3, 512, 512).cuda().float()
 
 #     model = BTSCD(3, num_classes=7).cuda()
-#     model.eval()  # 将模型设置为推理模式
+#     model.eval()  
 #     from fvcore.nn import FlopCountAnalysis
 #     flops = FlopCountAnalysis(model, (x1, x2))
 #     total = sum([param.nelement() for param in model.parameters()])
@@ -387,7 +387,7 @@ class BTSCD(nn.Module):
 #         for _ in range(10):
 #             _ = model(x1, x2)
 
-#     # 正式计时
+
 #     start_time = time.time()
 #     with torch.no_grad():
 #         output = model(x1, x2)
