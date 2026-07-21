@@ -1,3 +1,6 @@
+'''
+for example: Landsat_training!
+'''
 import os
 import time
 import random
@@ -27,8 +30,9 @@ from SemDINO import SemDINO
 # from models.TED import TED
 # from models.SSCDl import SSCDl
 # from models.SCanNet import SCanNet
-# from BT_SCD import BTSCD
+# from models.BT_SCD import BTSCD
 # from models.HRSCD4 import HRSCD4
+# from models.LASFNet import SCDNet
 NET_NAME = 'SemDINO'
 DATA_NAME = 'Landsat'
 
@@ -54,7 +58,7 @@ writer = SummaryWriter(args['log_dir'])
 
 def main():        
     net = SemDINO(num_classes=RS.num_classes, dim=128).cuda()
-    # net = nn.DataParallel(net) #多卡训练
+    # net = nn.DataParallel(net) 
     
     freeze_model(net.encoder.dino) # type: ignore
         
@@ -102,7 +106,7 @@ def train(train_loader, net, criterion, optimizer, scheduler, val_loader):
 
             optimizer.zero_grad()
 
-            # ====================== 改这里 ======================
+
             out_change, outputs_A, outputs_B, out_edge = net(imgs_A, imgs_B)
 
             assert outputs_A.size()[1] == RS.num_classes
@@ -111,7 +115,7 @@ def train(train_loader, net, criterion, optimizer, scheduler, val_loader):
             loss_bn = weighted_BCE_logits(out_change, labels_bn)
             loss_sc = criterion_sc(outputs_A[:,1:], outputs_B[:,1:], labels_bn)
             
-            # ====================== 可选：加边缘损失 ======================
+
             loss_edge = F.binary_cross_entropy_with_logits(out_edge, labels_bn)
             loss = loss_seg + loss_bn + loss_sc + loss_edge * 0.1
 
@@ -156,7 +160,7 @@ def train(train_loader, net, criterion, optimizer, scheduler, val_loader):
             bestaccV=acc_v
             bestloss=loss_v
 
-        # ====================== 【唯一修改】只保存最后50轮，每轮都存 ======================
+
         if curr_epoch >= args['epochs'] - 50:
             torch.save(net.state_dict(), os.path.join(args['chkpt_dir'], NET_NAME+'_%de_mIoU%.2f_Sek%.2f_Fscd%.2f_OA%.2f.pth'\
                 %(curr_epoch, mIoU_v*100, Sek_v*100, Fscd_v*100, acc_v*100)) ) # type: ignore
@@ -186,7 +190,7 @@ def validate(val_loader, net, criterion, curr_epoch):
             labels_B = labels_B.cuda().long()
 
         with torch.no_grad():
-            # ====================== 改这里 ======================
+
             out_change, outputs_A, outputs_B, out_edge = net(imgs_A, imgs_B)
 
             loss_A = criterion(outputs_A, labels_A)
