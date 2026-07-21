@@ -8,5 +8,5 @@ Preprint Version: [https://arxiv.org/pdf/2606.09772]
 
 # Dataset: soon!
 
-https://drive.google.com/file/d/1r6g0D6zV-1e8gJHij1edsE_uzvZ72L3u/view?usp=drive_link download to blocks (adapter.py: weights_path="~/blocks/dinov3_vitl16_pretrain_sat493m-eadcf0ff.pth")
+https://drive.google.com/file/d/12lC_Dx8B4dOglKuDDeZkkj0KsTIe-GqD/view?usp=drive_link download to blocks (adapter.py: weights_path="~/blocks/dinov3_vitl16_pretrain_sat493m-eadcf0ff.pth")
 # Stay tuned for our upcoming releases：/
