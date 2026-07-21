@@ -19,7 +19,7 @@ STD_A  = np.array([81.99, 83.31, 83.89])
 MEAN_B = np.array([137.36, 136.50, 135.144])
 STD_B  = np.array([85.97, 86.01, 86.81])
 
-root = '/root/autodl-fs/AAAI-SemDINO/LandsatSCD'
+root = '~/LandsatSCD'
 
 colormap2label = np.zeros(256 ** 3)
 for i, cm in enumerate(ST_COLORMAP):
@@ -173,7 +173,7 @@ class Data_test(data.Dataset):
 # MEAN_B = np.array([137.36, 136.50, 135.144])
 # STD_B  = np.array([85.97, 86.01, 86.81])
 
-# root = '/root/autodl-fs/AAAI-SemDINO/LandsatSCD'
+# root = '~/LandsatSCD'
 
 # colormap2label = np.zeros(256 ** 3)
 # for i, cm in enumerate(ST_COLORMAP):
@@ -337,7 +337,7 @@ class Data_test(data.Dataset):
 # STD_B  = np.array([85.97, 86.01, 86.81])
 
 
-# root = '/root/autodl-fs/AAAI-SemDINO/LandsatSCD'
+# root = '~/LandsatSCD'
 
 # colormap2label = np.zeros(256 ** 3)
 # for i, cm in enumerate(COLORMAP):
