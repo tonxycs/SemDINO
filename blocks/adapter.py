@@ -18,7 +18,7 @@ MODEL_TO_NUM_LAYERS = {
 class DINOV3Wrapper(nn.Module):
     def __init__(
         self,
-        weights_path="/root/autodl-fs/AAAI-SemDINO/models/blocks/dinov3_vitl16_pretrain_sat493m-eadcf0ff.pth",
+        weights_path="~/blocks/dinov3_vitl16_pretrain_sat493m-eadcf0ff.pth",
         extract_ids=[5, 11, 17, 23],
         device="cuda",
     ):
