@@ -14,7 +14,7 @@ Our Architecture:
 
 ### Dataset: (Messages and Download)
 
-Firstly, please refer to our datasets/RS's code:
+Please refer to our datasets/RS's code:
 
 [A] Landsat-SCD: 
 
