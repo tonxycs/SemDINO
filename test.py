@@ -12,8 +12,6 @@ from utils.utils import accuracy, SCDD_eval_all, AverageMeter
 
 #################################
 from datasets import RS_Landsat as RS
-# 导入SCGNet
-from SCGNet import SCGNet as Net
 from SemDINO import SemDINO as Net
 DATA_NAME = 'Landsat'
 #################################
@@ -25,8 +23,8 @@ class PredOptions():
     def initialize(self, parser):
         working_path = os.path.dirname(os.path.abspath(__file__))
         parser.add_argument('--pred_batch_size', required=False, default=2, help='prediction batch size')
-        parser.add_argument('--test_dir', required=False, default='/root/autodl-fs/AAAI-SemDINO/LandsatSCD/test')
-        parser.add_argument('--chkpt_path', required=False, default='/root/autodl-fs/AAAI-SemDINO/model/checkpointOnlyDINO/Landsat/SemDINO/SemDINO_98e_mIoU72.14_Sek21.89_Fscd66.11_OA87.79.pth')
+        parser.add_argument('--test_dir', required=False, default='~/LandsatSCD/test')
+        parser.add_argument('--chkpt_path', required=False, default='~.pth')
         self.initialized = True
         return parser
         
@@ -44,8 +42,7 @@ class PredOptions():
 def main():
     begin_time = time.time()
     opt = PredOptions().parse()
-    
-    # SCGNet初始化参数
+
     net = Net(num_classes=RS.num_classes, dim=128).cuda()
     ckpt = torch.load(opt.chkpt_path, map_location='cpu')
 
@@ -65,7 +62,7 @@ def main():
     
     print('Total time: %.2fs' % (time.time() - begin_time))
 
-# ====================== 【优化版】测试函数 ======================
+
 def validate(val_loader, net):
     net.eval()
     torch.cuda.empty_cache()
@@ -82,19 +79,18 @@ def validate(val_loader, net):
         labels_B = labels_B.cuda().long()
 
         with torch.no_grad():
-            # SCGNet 仅3输出：change, A, B，无edge
+
             out_change, outputs_A, outputs_B, _ = net(imgs_A, imgs_B)
             
-            # 水平翻转 TTA 预测
+       
             imgA_flip = torch.flip(imgs_A, dims=[3])
             imgB_flip = torch.flip(imgs_B, dims=[3])
             _, outA_flip, outB_flip, _ = net(imgA_flip, imgB_flip)
             
-            # 翻回去
+
             outA_flip = torch.flip(outA_flip, dims=[3])
             outB_flip = torch.flip(outB_flip, dims=[3])
-            
-            # 融合结果
+
             outputs_A = (outputs_A + outA_flip) / 2.0
             outputs_B = (outputs_B + outB_flip) / 2.0
 
