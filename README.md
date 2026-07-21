@@ -14,7 +14,7 @@ Our Architecture:
 
 ### Dataset: (Messages and Download)
 
-Please refer to our datasets/RS's code:
+Please refer to our datasets/RS's code and Paper's Experiments Settings Section ‌especially‌: 1.Datasets 2.Implementation Details.
 
 [A] Landsat-SCD: 
 
@@ -22,5 +22,5 @@ Please refer to our datasets/RS's code:
 
 [C] HRSCD:
 
-https://drive.google.com/file/d/14go5xbmn3uo5Gp5L-OKUuVuiLVvthJca/view?usp=drive_link download to blocks (adapter.py: weights_path="~/blocks/dinov3_vitl16_pretrain_sat493m-eadcf0ff.pth")
+🔑 Necessary:https://drive.google.com/file/d/14go5xbmn3uo5Gp5L-OKUuVuiLVvthJca/view?usp=drive_link download to blocks (adapter.py: weights_path="~/blocks/dinov3_vitl16_pretrain_sat493m-eadcf0ff.pth")
 # Stay tuned for our upcoming releases：/  If you’re interested, please feel free to contact me at [tonxycs@gmail.com]
