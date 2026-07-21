@@ -8,16 +8,16 @@
 # from torchvision.transforms import functional as F
 # import cv2
 
-# # ===================== HRSCD 专属参数（对齐开源官方色标 num_classes=6） =====================
+
 # num_classes = 6
-# # 开源标准HRSCD color_map，顺序严格对应类别索引
+
 # ST_COLORMAP = [
-#     [255, 255, 255],  # 0: No change 无变化背景
-#     [128, 0, 0],      # 1: Artificial surface 人工地表
-#     [128, 128, 128],  # 2: Agricultural area 农田
-#     [0, 128, 0],      # 3: Forest 森林
-#     [0, 255, 0],      # 4: Wetland 湿地
-#     [0, 0, 255]       # 5: Water 水体
+#     [255, 255, 255],  
+#     [128, 0, 0],      
+#     [128, 128, 128],  
+#     [0, 128, 0],      
+#     [0, 255, 0],     
+#     [0, 0, 255]      
 # ]
 # ST_CLASSES = [
 #     '0: No change',
@@ -33,10 +33,10 @@
 # MEAN_B = np.array([105.96, 119.83, 97.62])
 # STD_B  = np.array([49.95, 40.06, 35.24])
 
-# # HRSCD根目录（你的autodl路径）
-# root = '/root/autodl-fs/HRSCD'
 
-# # ===================== 工具函数（完全不动） =====================
+# root = '~/HRSCD'
+
+
 # colormap2label = np.zeros(256 ** 3)
 # for i, cm in enumerate(ST_COLORMAP):
 #     colormap2label[(cm[0] * 256 + cm[1]) * 256 + cm[2]] = i
@@ -76,13 +76,13 @@
 # def normalize_image(im, time='A'):
 #     assert time in ['A', 'B']
 #     eps = 1e-8
-#     # 限制原始像素合法区间 0~255
+
 #     im = np.clip(im, 0.0, 255.0)
 #     if time == 'A':
 #         im = (im - MEAN_A) / (STD_A + eps)
 #     else:
 #         im = (im - MEAN_B) / (STD_B + eps)
-#     # 裁剪极值，杜绝Inf、NaN
+
 #     im = np.clip(im, -10.0, 10.0)
 #     return im
 
@@ -91,7 +91,7 @@
 #         imgs[i] = normalize_image(im, time)
 #     return imgs
 
-# # ===================== 图像读取（文件夹A/B/labelA/labelB，和Landsat完全一致） =====================
+
 # def read_RSimages(mode, rescale=False):
 #     img_A_dir = os.path.join(root, mode, 'A')
 #     img_B_dir = os.path.join(root, mode, 'B')
@@ -127,7 +127,7 @@
     
 #     return imgs_list_A, imgs_list_B, labels_A, labels_B
 
-# # ===================== 训练/验证数据集类（接口完全不变） =====================
+
 # class Data(data.Dataset):
 #     def __init__(self, mode, random_flip = False):
 #         self.random_flip = random_flip
@@ -151,7 +151,7 @@
 #     def __len__(self):
 #         return len(self.imgs_list_A)
 
-# # ===================== 推理测试集类 =====================
+
 # class Data_test(data.Dataset):
 #     def __init__(self, test_dir):
 #         self.imgs_A = []
@@ -213,7 +213,7 @@ ST_COLORMAP = [
     [0, 0, 255], # water
 ]
 
-root = '/root/autodl-fs/HRSCD'
+root = '~/HRSCD'
 
 MEAN_A = np.array([111.68, 113.17, 87.62])
 STD_A = np.array([55.29, 41.51, 39.37])
