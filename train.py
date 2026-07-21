@@ -41,14 +41,14 @@ args = {
     'train_batch_size': 2,
     'val_batch_size': 2,
     'lr': 0.01,
-    'epochs': 100,
+    'epochs': 200,
     'gpu': True,
     'lr_decay_power': 1.5,
     'weight_decay': 5e-4,
     'momentum': 0.9,
     'print_freq': 50,
-    'chkpt_dir': os.path.join(working_path, 'checkpointOnlyDINO', DATA_NAME, NET_NAME),
-    'log_dir': os.path.join(working_path, 'logsOnlyDINO', DATA_NAME, NET_NAME),
+    'chkpt_dir': os.path.join(working_path, 'checkpoint', DATA_NAME, NET_NAME),
+    'log_dir': os.path.join(working_path, 'logs', DATA_NAME, NET_NAME),
 }
 
 if not os.path.exists(args['log_dir']): os.makedirs(args['log_dir'])
@@ -84,7 +84,6 @@ def train(train_loader, net, criterion, optimizer, scheduler, val_loader):
     criterion_sc = ChangeSimilarity().cuda()
     curr_epoch=0
     while True:
-        torch.cuda.empty_cache()
         net.train()
         start = time.time()
         acc_meter = AverageMeter()
@@ -173,7 +172,6 @@ def train(train_loader, net, criterion, optimizer, scheduler, val_loader):
 
 def validate(val_loader, net, criterion, curr_epoch):
     net.eval()
-    torch.cuda.empty_cache()
     start = time.time()
 
     val_loss = AverageMeter()
