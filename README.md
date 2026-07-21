@@ -12,9 +12,10 @@ Our Architecture:
 <img width="920" height="399" alt="image" src="https://github.com/user-attachments/assets/0e85a9e9-3819-4a6b-98b6-17c79c09adac" />
 
 
-### Dataset: (Messages and Download)
+### Dataset: (Information and Download)
 
-Please refer to our datasets/RS's code and Paper's Experiments Settings Section ‌especially‌: 1.Datasets 2.Implementation Details.
+Information: please refer to our datasets/RS's code and Paper's Experiments Settings Section ‌especially‌: 1.Datasets 2.Implementation Details.
+Download: the following is a summary of the processed semantic change detection dataset and the predictable weights used in this paper:
 
 [A] Landsat-SCD: 
 
