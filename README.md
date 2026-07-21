@@ -14,8 +14,8 @@ Our Architecture:
 
 ### Dataset: (Information and Download)
 
-Information: please refer to our datasets/RS's code and Paper's Experiments Settings Section ‌especially‌: 1.Datasets 2.Implementation Details.
-Download: the following is a summary of the processed semantic change detection dataset and the predictable weights used in this paper:
+#### Information : please refer to our datasets/RS's code and Paper's Experiments Settings Section ‌especially‌: 1.Datasets 2.Implementation Details.
+### Download: the following is a summary of the processed semantic change detection dataset and the predictable weights used in this paper:
 
 [A] Landsat-SCD: 
 
