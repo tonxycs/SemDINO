@@ -1,11 +1,8 @@
-'''
-单通道非RGB
-'''
+
 
 import os
 import shutil
 
-# 你的路径
 root = "/root/autodl-fs/AAAI-SemDINO/LandsatSCD"
 
 for mode in ["train", "val", "test"]:
@@ -13,7 +10,7 @@ for mode in ["train", "val", "test"]:
     with open(txt) as f:
         names = [line.strip() for line in f if line.strip()]
 
-    # ✅ 创建：A B labelA labelB
+
     for folder in ["A", "B", "labelA", "labelB"]:
         os.makedirs(os.path.join(root, mode, folder), exist_ok=True)
 
@@ -21,11 +18,11 @@ for mode in ["train", "val", "test"]:
         shutil.copy2(os.path.join(root, "A", name), os.path.join(root, mode, "A", name))
         shutil.copy2(os.path.join(root, "B", name), os.path.join(root, mode, "B", name))
         
-        # ✅ 复制两个标签！不是一个！
+
         shutil.copy2(os.path.join(root, "labelA", name), os.path.join(root, mode, "labelA", name))
         shutil.copy2(os.path.join(root, "labelB", name), os.path.join(root, mode, "labelB", name))
 
-print("✅ 正确结构生成完成！A B labelA labelB 齐全！")
+
 
 
 
@@ -38,9 +35,9 @@ RGB
 # from shutil import copyfile
 
 # def main():
-#     src_dir = '/root/autodl-fs/AAAI-SemDINO/SECOND'
-#     train_dir = '/root/autodl-fs/AAAI-SemDINO/model/Datas/train_info.txt'
-#     val_dir = '/root/autodl-fs/AAAI-SemDINO/model/Datas/val_info.txt'
+#     src_dir = '~/SECOND'
+#     train_dir = '~/train_info.txt'
+#     val_dir = '~/val_info.txt'
 
 #     train_info = open('train_info.txt', 'r')
 #     train_list = train_info.readlines()
