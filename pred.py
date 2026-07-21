@@ -23,9 +23,9 @@
 #     def initialize(self, parser):
 #         working_path = os.path.dirname(os.path.abspath(__file__))
 #         parser.add_argument('--pred_batch_size', required=False, default=1, help='prediction batch size')
-#         parser.add_argument('--test_dir', required=False, default='/root/autodl-fs/AAAI-SemDINO/LandsatSCD/test', help='directory to test images')
-#         parser.add_argument('--pred_dir', required=False, default='/root/autodl-fs/visminimum', help='directory to output masks')
-#         parser.add_argument('--chkpt_path', required=False, default='/root/autodl-fs/SCanNet_49e_mIoU88.58_Sek59.12_Fscd88.73_OA96.20.pth')
+#         parser.add_argument('--test_dir', required=False, default='~/LandsatSCD/test', help='directory to test images')
+#         parser.add_argument('--pred_dir', required=False, default='~', help='directory to output masks')
+#         parser.add_argument('--chkpt_path', required=False, default='~.pth')
 #         self.initialized = True
 #         return parser
         
@@ -58,7 +58,7 @@
 #     begin_time = time.time()
 #     opt = PredOptions().parse()
 #     net = Net(num_classes=RS.num_classes, dim=128).cuda()
-#     # 加载权重
+
 #     ckpt = torch.load(opt.chkpt_path, map_location='cpu')
 #     new_ckpt = {}
 #     for k, v in ckpt.items():
@@ -71,7 +71,7 @@
     
 #     test_set = RS.Data_test(opt.test_dir)
 #     test_loader = DataLoader(test_set, batch_size=opt.pred_batch_size)
-#     # 修复：intermediate=True 生成完整全图语义图（论文要用）
+
 #     predict(net, test_set, test_loader, opt.pred_dir, flip=False, index_map=True, intermediate=True)    
 #     time_use = time.time() - begin_time
 #     print('Total time: %.2fs'%time_use)
@@ -101,7 +101,7 @@
 #         imgs_B = imgs_B.cuda().float()
 #         mask_name = pred_set.get_mask_name(vi)
 #         with torch.no_grad(): 
-#             # 修复：丢弃第四个edge输出，匹配4输出模型
+
 #             out_change, outputs_A, outputs_B, _ = net(imgs_A, imgs_B)
 #             out_change = F.sigmoid(out_change)
 #         if flip:
@@ -150,12 +150,12 @@
 #             pred_A_path = os.path.join(pred_mA_dir, mask_name)
 #             pred_B_path = os.path.join(pred_mB_dir, mask_name)
 #             pred_change_path = os.path.join(pred_change_dir, mask_name)
-#             # 无掩码完整全图，论文标准图
+
 #             io.imsave(pred_A_path, RS.Index2Color(pred_A.numpy()))
 #             io.imsave(pred_B_path, RS.Index2Color(pred_B.numpy()))
 #             change_map = exposure.rescale_intensity(change_mask.numpy(), 'image', 'dtype')
 #             io.imsave(pred_change_path, change_map)
-#         # 乘掩码，仅变化区域显色（空白多）
+
 #         pred_A = (pred_A*change_mask.long()).numpy()
 #         pred_B = (pred_B*change_mask.long()).numpy()      
 #         pred_A_path = os.path.join(pred_A_dir_rgb, mask_name)
@@ -258,9 +258,10 @@ from models.TBFFNet import TBFFNet
 from models.BiSRNet import BiSRNet
 from models.TED import TED
 from models.SSCDl import SSCDl
-from models.SCanNet import SCanNet as Net
+from models.SCanNet import SCanNet
 from models.HRSCD4 import HRSCD4
-from SCGNet import SCGNet
+from models.BT_SCD import BTSCD
+from models.LSAFNet import SCDNet
 DATA_NAME = 'Landsat'
 #################################
 
@@ -271,9 +272,9 @@ class PredOptions():
     def initialize(self, parser):
         working_path = os.path.dirname(os.path.abspath(__file__))
         parser.add_argument('--pred_batch_size', required=False, default=1, help='prediction batch size')
-        parser.add_argument('--test_dir', required=False, default='/root/autodl-fs/AAAI-SemDINO/LandsatSCD/test', help='directory to test images')
-        parser.add_argument('--pred_dir', required=False, default='/root/autodl-fs/visvisvisLandsat', help='directory to output masks')
-        parser.add_argument('--chkpt_path', required=False, default='/root/autodl-fs/AAAI-SemDINO/checkpoints2/Landsat/SCGNet/SCGNet_98e_mIoU85.87_Sek51.44_Fscd85.46_OA95.12.pth')
+        parser.add_argument('--test_dir', required=False, default='~/LandsatSCD/test', help='directory to test images')
+        parser.add_argument('--pred_dir', required=False, default='~', help='directory to output masks')
+        parser.add_argument('--chkpt_path', required=False, default='~.pth')
         self.initialized = True
         return parser
         
@@ -302,25 +303,12 @@ def compare_models(model_1, model_2):
     if models_differ == 0:
         print('Models match perfectly! :)')        
 
-# def main():
-#     begin_time = time.time()
-#     opt = PredOptions().parse()
-#     net = SCGNet(3, RS.num_classes).cuda()
-#     net.load_state_dict( torch.load(opt.chkpt_path) )
-#     net.eval()
-    
-#     test_set = RS.Data_test(opt.test_dir)
-#     test_loader = DataLoader(test_set, batch_size=opt.pred_batch_size)
-#     predict(net, test_set, test_loader, opt.pred_dir, flip=False, index_map=True, intermediate=False)    
-#     #predict_direct(net, test_set, test_loader, opt.pred_dir, flip=False, index_map=True)
-#     time_use = time.time() - begin_time
-#     print('Total time: %.2fs'%time_use)
 
 def main():
     begin_time = time.time()
     opt = PredOptions().parse()
-    net = SCGNet(3, RS.num_classes).cuda()
-    # 处理多卡module前缀
+    net = ~(3, RS.num_classes).cuda()
+
     ckpt = torch.load(opt.chkpt_path)
     new_state = {}
     for key, val in ckpt.items():
