@@ -23,7 +23,7 @@ Our Architecture:
 
 [C] HRSCD:
 
-### Model: (More see models)
+### Model:/
 
 🔑 Necessary:  [https://drive.google.com/file/d/14go5xbmn3uo5Gp5L-OKUuVuiLVvthJca/view?usp=drive_link]  download to blocks (adapter.py: weights_path="~/blocks/dinov3_vitl16_pretrain_sat493m-eadcf0ff.pth")
 
