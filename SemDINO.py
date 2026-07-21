@@ -248,3 +248,71 @@ class SemDINO(nn.Module):
         out_edge = F.interpolate(out_edge, img1.shape[2:], mode='bilinear', align_corners=True)
 
         return out_cd, out_s1, out_s2, out_edge
+
+
+
+
+
+
+
+# # ==========================
+# # 🔥 0 显存 计算 Params & FLOPs（所有运算在CPU，不占显存）
+# # ==========================
+# if __name__ == '__main__':
+#     import torch
+#     from thop import profile, clever_format
+
+#     # ================== 关键：模型放 CPU，不占显存 ==================
+#     model = SemDINO(num_classes=7, dim=128).cpu()
+#     model.eval()
+
+#     # 输入也在 CPU，batch=1 依然不占显存！
+#     x1 = torch.randn(1, 3, 416, 416).cpu()
+#     x2 = torch.randn(1, 3, 416, 416).cpu()
+
+#     # 关闭梯度，进一步省显存
+#     with torch.no_grad():
+#         # 1. 整体统计
+#         total_flops, total_params = profile(model, inputs=(x1, x2), verbose=False)
+#         total_flops_str, total_params_str = clever_format([total_flops, total_params], "%.2f")
+
+#         print("=" * 60)
+#         print(f"模型整体统计")
+#         print(f"总参数量: {total_params_str}")
+#         print(f"总FLOPs:  {total_flops_str}")
+#         print("=" * 60)
+
+#         # 子模块统计函数
+#         def count(mod, inp):
+#             f, p = profile(mod, inputs=inp, verbose=False)
+#             return clever_format([f, p], "%.2f")
+
+#         # 2. 逐模块统计
+#         enc_f, enc_p = count(model.encoder, (x1,))
+#         f1 = model.encoder(x1)
+#         f2 = model.encoder(x2)
+#         tbtt_f, tbtt_p = count(model.mtbtt, (f1, f2))
+#         f1_a, f2_a = model.mtbtt(f1, f2)
+#         bce_f, bce_p = count(model.bce, (f1_a[3], f2_a[3]))
+#         diff = model.bce(f1_a[3], f2_a[3])
+#         scp_f, scp_p = count(model.scp, (f1_a[3], f2_a[3], diff))
+#         f1c, f2c = model.scp(f1_a[3], f2_a[3], diff)
+#         mce_f, mce_p = count(model.mce, (diff, f1c, f2c))
+#         diff_mce = model.mce(diff, f1c, f2c)
+#         fuse_f, fuse_p = count(model.fusion, (f1_a[:3], f2_a[:3], diff_mce))
+#         fused = model.fusion(f1_a[:3], f2_a[:3], diff_mce)
+#         head_f, head_p = count(model.head, (fused,))
+
+#         # 输出表格
+#         print(f"{'模块':<18} {'Params':<10} {'FLOPs'}")
+#         print("-" * 50)
+#         print(f"Encoder          | {enc_p:<10} {enc_f}")
+#         print(f"MultiScaleTBTT   | {tbtt_p:<10} {tbtt_f}")
+#         print(f"BiChangeEnhance  | {bce_p:<10} {bce_f}")
+#         print(f"SCP              | {scp_p:<10} {scp_f}")
+#         print(f"MCE              | {mce_p:<10} {mce_f}")
+#         print(f"ChangeFusion     | {fuse_p:<10} {fuse_f}")
+#         print(f"SCDHead          | {head_p:<10} {head_f}")
+#         print("=" * 50)
+
+
