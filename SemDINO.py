@@ -6,7 +6,7 @@ from blocks.fpn import FPN
 from blocks.adapter import DINOV3Wrapper, DenseAdapterLite
 from backbone.resnet50 import resnet50
 
-# 0.TBTT：双向统一时序交互模块
+
 class TBTT(nn.Module):
     def __init__(self, dim, head=4):
         super().__init__()
@@ -23,7 +23,7 @@ class TBTT(nn.Module):
         self.k2 = nn.Conv2d(dim, dim, 1)
         self.v2 = nn.Conv2d(dim, dim, 1)
 
-        # 可学习门控
+
         self.g1 = nn.Parameter(torch.zeros(1))
         self.g2 = nn.Parameter(torch.zeros(1))
 
@@ -50,7 +50,7 @@ class TBTT(nn.Module):
         return f1_o, f2_o
 
 
-# trick/ SCP 语义净化模块
+
 class SCP(nn.Module):
     def __init__(self, dim):
         super().__init__()
@@ -74,7 +74,7 @@ class SCP(nn.Module):
         f2c = self.clean_t2(f2 + f1m * g2)
         return f1c, f2c
 
-# 1.MCE/多尺度变化增强
+
 class MCE(nn.Module):
     def __init__(self, dim):
         super().__init__()
@@ -97,7 +97,7 @@ class MCE(nn.Module):
         x = self.f2(x + ms[0])
         return self.out(x + d)
 
-# 2.BCE/双向变化增强
+
 class BiChangeEnhance(nn.Module):
     def __init__(self, dim):
         super().__init__()
@@ -109,7 +109,7 @@ class BiChangeEnhance(nn.Module):
         d = self.dc(torch.abs(f1-f2))
         return d * self.sg(f1+f2) + self.cg(d)
 
-# 门控融合 CNN + DINO
+
 class GatedFusion(nn.Module):
     def __init__(self, id, od):
         super().__init__()
@@ -124,7 +124,7 @@ class GatedFusion(nn.Module):
         x = x * self.sa(s)
         return c + x
 
-# 金字塔Fusion
+
 class PyramidFusion(nn.Module):
     def __init__(self, dim):
         super().__init__()
@@ -151,7 +151,7 @@ class Encoder(nn.Module):
         dino_feat = self.adapter(self.dino(x))
         return self.pff(cnn_feat, dino_feat)
 
-# MTBTT 多尺度TBTT（保留完整 T1 + T2 所有层）
+
 
 class MultiScaleTBTT(nn.Module):
     def __init__(self, dim):
@@ -169,7 +169,7 @@ class MultiScaleTBTT(nn.Module):
         return [o0, o1, o2, o3], [t2_0, t2_1, t2_2, t2_3]
 
 
-# Feature Fusion/ 特征融合（T1 + T2 双时相完整输入）
+
 class ChangeFusion(nn.Module):
     def __init__(self, dim):
         super().__init__()
@@ -190,7 +190,7 @@ class ChangeFusion(nn.Module):
         return x * self.att(x)
 
 
-# Decoder Head/ 解耦头
+
 class SCDHead(nn.Module):
     def __init__(self, dim, num_classes):
         super().__init__()
@@ -224,24 +224,24 @@ class SemDINO(nn.Module):
         self.head = SCDHead(dim, num_classes)
 
     def forward(self, img1, img2):
-        # 双时相编码
+
         f1 = self.encoder(img1)
         f2 = self.encoder(img2)
 
-        # 双向时序对齐（保留全部 T1 + T2 特征）
+
         f1_align, f2_align = self.mtbtt(f1, f2)
 
-        # 变化增强与净化
+
         diff = self.bce(f1_align[3], f2_align[3])
         f1c, f2c = self.scp(f1_align[3], f2_align[3], diff)
         diff = self.mce(diff, f1c, f2c)
 
         fused = self.fusion(f1_align[:3], f2_align[:3], diff)
 
-        # 多任务输出
+
         out_cd, out_s1, out_s2, out_edge = self.head(fused)
 
-        # 上采样到原图尺寸
+
         out_cd = F.interpolate(out_cd, img1.shape[2:], mode='bilinear', align_corners=True)
         out_s1 = F.interpolate(out_s1, img1.shape[2:], mode='bilinear', align_corners=True)
         out_s2 = F.interpolate(out_s2, img1.shape[2:], mode='bilinear', align_corners=True)
@@ -255,39 +255,35 @@ class SemDINO(nn.Module):
 
 
 
-# # ==========================
-# # 🔥 0 显存 计算 Params & FLOPs（所有运算在CPU，不占显存）
-# # ==========================
 # if __name__ == '__main__':
 #     import torch
 #     from thop import profile, clever_format
 
-#     # ================== 关键：模型放 CPU，不占显存 ==================
+
 #     model = SemDINO(num_classes=7, dim=128).cpu()
 #     model.eval()
 
-#     # 输入也在 CPU，batch=1 依然不占显存！
+
 #     x1 = torch.randn(1, 3, 416, 416).cpu()
 #     x2 = torch.randn(1, 3, 416, 416).cpu()
 
-#     # 关闭梯度，进一步省显存
+
 #     with torch.no_grad():
-#         # 1. 整体统计
+
 #         total_flops, total_params = profile(model, inputs=(x1, x2), verbose=False)
 #         total_flops_str, total_params_str = clever_format([total_flops, total_params], "%.2f")
 
 #         print("=" * 60)
-#         print(f"模型整体统计")
-#         print(f"总参数量: {total_params_str}")
-#         print(f"总FLOPs:  {total_flops_str}")
+
+#         print(f"param total: {total_params_str}")
+#         print(fFLOPs total:  {total_flops_str}")
 #         print("=" * 60)
 
-#         # 子模块统计函数
+
 #         def count(mod, inp):
 #             f, p = profile(mod, inputs=inp, verbose=False)
 #             return clever_format([f, p], "%.2f")
 
-#         # 2. 逐模块统计
 #         enc_f, enc_p = count(model.encoder, (x1,))
 #         f1 = model.encoder(x1)
 #         f2 = model.encoder(x2)
@@ -303,8 +299,8 @@ class SemDINO(nn.Module):
 #         fused = model.fusion(f1_a[:3], f2_a[:3], diff_mce)
 #         head_f, head_p = count(model.head, (fused,))
 
-#         # 输出表格
-#         print(f"{'模块':<18} {'Params':<10} {'FLOPs'}")
+
+#         print(f"{'module':<18} {'Params':<10} {'FLOPs'}")
 #         print("-" * 50)
 #         print(f"Encoder          | {enc_p:<10} {enc_f}")
 #         print(f"MultiScaleTBTT   | {tbtt_p:<10} {tbtt_f}")
