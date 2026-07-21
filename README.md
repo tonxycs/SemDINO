@@ -17,11 +17,7 @@ Our Architecture:
 #### [Information] : please refer to our datasets/RS's code and Paper's Experiments Settings Section ‌especially‌: 1.Datasets 2.Implementation Details.
 #### [Download]: the following is a summary of the processed semantic change detection datasets used in this paper:
 
-[A] Landsat-SCD: 
-
-[B] SECOND:
-
-[C] HRSCD:
+[https://drive.google.com/drive/folders/1DurQS_nSuU1qWm0ycvp_M4Hthe84RNFe]
 
 How to use?  following this:
 
