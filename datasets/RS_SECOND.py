@@ -19,7 +19,7 @@ STD_A  = np.array([48.30,  46.27,  48.14])
 MEAN_B = np.array([111.07, 114.04, 118.18])
 STD_B  = np.array([49.41,  47.01,  47.94])
 
-root = '/root/autodl-fs/AAAI-SemDINO/SECOND'
+root = '~/SECOND'
 
 colormap2label = np.zeros(256 ** 3)
 for i, cm in enumerate(ST_COLORMAP):
@@ -87,9 +87,9 @@ def read_RSimages(mode, rescale=False):
             label_A = io.imread(label_A_path)
             label_B = io.imread(label_B_path)
 
-            # ========== 新增：读取标签后立即转成单通道类别索引 ==========
-            if len(label_A.shape) == 3:  # 如果是RGB图（3通道）
-                label_A = Color2Index(label_A)  # 转成单通道 [H,W]
+
+            if len(label_A.shape) == 3:  
+                label_A = Color2Index(label_A)  
             if len(label_B.shape) == 3:
                 label_B = Color2Index(label_B)
 
@@ -98,7 +98,7 @@ def read_RSimages(mode, rescale=False):
         count+=1
         if not count%500: print('%d/%d images loaded.'%(count, len(data_list)))
     
-    print(labels_A[0].shape)  # 现在会输出 (512,512)，而非 (512,512,3)
+    print(labels_A[0].shape)  
     print(str(len(imgs_list_A)) + ' ' + mode + ' images' + ' loaded.')
     
     return imgs_list_A, imgs_list_B, labels_A, labels_B
@@ -157,9 +157,7 @@ class Data_test(data.Dataset):
         return self.len
     
 
-# '''
-# 数据增强版本
-# '''
+
 # import os
 # import numpy as np
 # import torch
@@ -168,7 +166,7 @@ class Data_test(data.Dataset):
 # import utils.transform as transform
 # from torchvision.transforms import functional as F
 
-# # ====================== 导入最强增强 ======================
+
 # from datasets.augmentation import augmentation_compose
 
 # num_classes = 7
@@ -180,7 +178,7 @@ class Data_test(data.Dataset):
 # MEAN_B = np.array([111.07, 114.04, 118.18])
 # STD_B  = np.array([49.41,  47.01,  47.94])
 
-# root = '/root/autodl-fs/AAAI-SemDINO/SECOND'
+# root = '~/SECOND'
 
 # colormap2label = np.zeros(256 ** 3)
 # for i, cm in enumerate(ST_COLORMAP):
@@ -239,9 +237,7 @@ class Data_test(data.Dataset):
     
 #     return imgs_list_A, imgs_list_B, labels_A, labels_B
 
-# # ==============================================================================
-# # ====================== 🔥 加强版 Data 类（增强已加入）======================
-# # ==============================================================================
+
 # class Data(data.Dataset):
 #     def __init__(self, mode, random_flip=False):
 #         self.random_flip = random_flip
@@ -251,13 +247,12 @@ class Data_test(data.Dataset):
 #         return os.path.split(self.imgs_list_A[idx])[-1]
 
 #     def __getitem__(self, idx):
-#         # 1. 读取原始图像
 #         img_A = io.imread(self.imgs_list_A[idx])
 #         img_B = io.imread(self.imgs_list_B[idx])
 #         label_A = self.labels_A[idx]
 #         label_B = self.labels_B[idx]
 
-#         # 2. 🔥 训练模式：开启超强增强
+
 #         if self.random_flip:
 #             gt_mask = (label_A != label_B).astype(np.uint8)
 #             sample = {
@@ -267,18 +262,18 @@ class Data_test(data.Dataset):
 #                 "mask2": label_B,
 #                 "gt_mask": gt_mask
 #             }
-#             # 调用超强增强
+
 #             sample = augmentation_compose(sample)
 #             img_A = sample["img1"]
 #             img_B = sample["img2"]
 #             label_A = sample["mask1"]
 #             label_B = sample["mask2"]
 
-#         # 3. 归一化
+
 #         img_A = normalize_image(img_A, 'A')
 #         img_B = normalize_image(img_B, 'B')
 
-#         # 4. 转张量返回
+
 #         return (
 #             F.to_tensor(img_A),
 #             F.to_tensor(img_B),
@@ -289,7 +284,7 @@ class Data_test(data.Dataset):
 #     def __len__(self):
 #         return len(self.imgs_list_A)
 
-# # ====================== 测试集（不变）======================
+
 # class Data_test(data.Dataset):
 #     def __init__(self, test_dir):
 #         self.imgs_A = []
