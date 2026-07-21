@@ -3,7 +3,7 @@
 import os
 import shutil
 
-root = "/root/autodl-fs/AAAI-SemDINO/LandsatSCD"
+root = "~//LandsatSCD"
 
 for mode in ["train", "val", "test"]:
     txt = os.path.join(root, f"{mode}_list.txt")
