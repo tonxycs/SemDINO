@@ -17,12 +17,6 @@ working_path = os.path.dirname(os.path.abspath(__file__))
 from utils.loss import CrossEntropyLoss2d, weighted_BCE_logits, ChangeSimilarity
 from utils.utils import accuracy, SCDD_eval_all, AverageMeter
 
-torch.backends.cudnn.benchmark = True  # type: ignore 
-torch.backends.cudnn.enabled = True # type: ignore
-torch.cuda.empty_cache()
-torch.set_float32_matmul_precision('medium')
-os.environ['CUDA_VISIBLE_DEVICES'] = '0'
-
 from datasets import RS_Landsat as RS
 from SemDINO import SemDINO
 # from models.TBFFNet import TBFFNet
