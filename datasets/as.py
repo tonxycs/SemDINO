@@ -119,6 +119,6 @@ def Color2Index(ColorLabel):
     return IndexMap
 
 
-lab = io.imread("/root/autodl-fs/HRSCD/train/labelA/14-2012-0420-6895-LA93-0M50-E080_r0002_c0028.png")
+lab = io.imread("～/HRSCD/train/labelA/14-2012-0420-6895-LA93-0M50-E080_r0002_c0028.png")
 lab = Color2Index(lab)
 print(np.unique(lab))
