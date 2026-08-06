@@ -111,7 +111,7 @@ def validate(val_loader, net):
             labels_all.append(label_B)
             acc_meter.update((acc_A + acc_B) * 0.5)
     
-    Fscd, IoU_mean, Sek = SCDD_eval_all(preds_all, labels_all, RS.num_classes)
+    Fscd, IoU_mean, Sek = SCDD_eval_all(preds_all, labels_all, 17) #17-Landsat-SCD/37-SECOND/26-HRSCD
     print('%.1fs  Fscd: %.2f IoU: %.2f Sek: %.2f Accuracy: %.2f'
           % (time.time() - start, Fscd*100, IoU_mean*100, Sek*100, acc_meter.average()*100))
     return Fscd, IoU_mean, Sek, acc_meter.avg
