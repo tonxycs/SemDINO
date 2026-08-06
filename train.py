@@ -209,7 +209,7 @@ def validate(val_loader, net, criterion, curr_epoch):
             acc = (acc_A + acc_B)*0.5
             acc_meter.update(acc)
     
-    Fscd, IoU_mean, Sek = SCDD_eval_all(preds_all, labels_all, RS.num_classes)
+    Fscd, IoU_mean, Sek = SCDD_eval_all(preds_all, labels_all, 17) #17-Landsat-SCD/37-SECOND/26-HRSCD
 
     curr_time = time.time() - start
     print('%.1fs Val loss: %.2f Fscd: %.2f IoU: %.2f Sek: %.2f Accuracy: %.2f'\
