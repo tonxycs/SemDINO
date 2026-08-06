@@ -8,7 +8,7 @@ Our Architecture:
 
 <img width="920" height="399" alt="image" src="https://github.com/user-attachments/assets/0e85a9e9-3819-4a6b-98b6-17c79c09adac" />
 
-## 🛠️ Environment Setup (Refer to https://bgithub.xyz/EasonXiao-888/MambaTree/edit/main/README.md)
+## 🛠️ Environment Setup (Refer to https://github.com/tonxycs/M4Fuse#pip)
 
 #### Vision Tasks
 ```txt
