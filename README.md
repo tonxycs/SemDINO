@@ -60,17 +60,7 @@ python pred.py (change the dataset and the best weight)
 
 If you find this work useful or interesting, please consider citing the following BibTeX entry.
 
-```
-@misc{tong2026semdinodinov3guidedcrosstemporalsemantic,
-      title={SemDINO: DINOv3-Guided Cross-Temporal Semantic Alignment Network for Remote Sensing Change Detection}, 
-      author={Xinyu Tong and Meihua Zhou and Jinxiao Sun and Lei Wang},
-      year={2026},
-      eprint={2606.09772},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2606.09772}, 
-}
-```
+
 
 ***Stay tuned for our upcoming releases. For urgent citation, usage, or further assistance, please feel free to contact me [tonxycs@gmail.com] without any hesitation. You are very welcome!***
 
