@@ -12,8 +12,8 @@ Our Architecture:
 
 #### Environment
 ```txt
-conda create -n GSTM-SCD python=3.10
-conda activate GSTM-SCD
+conda create -n SemDINO python=3.8
+conda activate SemDINO
 
 # Install pytorch 
 pip install torch==2.1.1+cu118 torchvision==0.16.1+cu118 torchaudio==2.1.1 --extra-index-url https://download.pytorch.org/whl/cu118
