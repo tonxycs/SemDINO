@@ -10,7 +10,7 @@ Our Architecture:
 
 ## 🛠️ Environment Setup (Refer to https://github.com/tonxycs/M4Fuse#pip)
 
-#### Vision Tasks
+#### Environment
 ```txt
 conda create -n GSTM-SCD python=3.10
 conda activate GSTM-SCD
