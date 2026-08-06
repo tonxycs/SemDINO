@@ -385,5 +385,3 @@ def CaclTP(imPred, imLab, numClass):
     # print(area_lab)
 
     return (TP_hist, pred_hist, lab_hist)
-
-    return (TP_hist, pred_hist, lab_hist)
