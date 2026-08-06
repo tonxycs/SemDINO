@@ -52,7 +52,7 @@ How to use?  following this:
 ### Training and Test: (Information and Download)
 
 ### Pred and Vis: (Follow the code above and it's very clear.)
-python pred.py
+python pred.py (change the dataset and the best weight)
 
 ## Cite SemDINO
 
