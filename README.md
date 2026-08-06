@@ -49,8 +49,10 @@ How to use?  following this:
 
 🔑 Necessary of Ours SemDINO:  [https://drive.google.com/drive/folders/1DurQS_nSuU1qWm0ycvp_M4Hthe84RNFe]  download to blocks (adapter.py: weights_path="~/blocks/dinov3_vitl16_pretrain_sat493m-eadcf0ff.pth")
 
-### Training and Test: (Information and Download)
-
+### Training and Test: 
+1.
+2.
+3.
 ### Pred and Vis: (Follow the code above and it's very clear.)
 python pred.py (change the dataset and the best weight)
 
