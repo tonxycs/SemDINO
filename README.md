@@ -1,8 +1,6 @@
 ## About SemDINO: *A multi-scale bidirectional temporal model with foundation priors, anti-pseudo-change capability and outstanding cross-dataset performance!*
 
 ###  This repository is the official implementation:
-Our papers: 
-Preprint Version: [https://arxiv.org/pdf/2606.09772]
 
 Our Architecture:
 
