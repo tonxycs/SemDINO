@@ -4,13 +4,29 @@
 Our papers: 
 Preprint Version: [https://arxiv.org/pdf/2606.09772]
 
-## 📄 Abstract:
-Semantic change detection (SCD) in remote sensing aims to identify land-cover transitions between bi-temporal observations while suppressing pseudo-changes caused by illumination variations, seasonal differences, and registration errors. Although Vision Foundation Models (VFMs) provide transferable semantic priors, their application to SCD remains challenging due to the mismatch between foundation-model representations and task-specific spatial features, as well as temporal-order sensitivity. To address these issues, this paper proposes SemDINO, a foundation prior-guided framework that integrates transferable vision foundation model priors with hierarchical convolutional representations for cross-temporal semantic reasoning. Specifically, a Gated Pyramid Fusion (PyFu) module is developed to adaptively combine foundation-model semantics with CNN spatial details while reducing domain noise. A Multi-scale Temporal Bi-directional Transformer (M-TBTT) is introduced to achieve symmetric cross-temporal feature interaction and alleviate temporal-order bias. Furthermore, a Feature Change Enhancement (FeaCE) flow is designed to refine aligned representations and distinguish genuine semantic transitions from pseudo variations. Finally, a multi-branch decoupled prediction head jointly generates change masks, bi-temporal semantic maps, and edge constraints. Extensive experiments across five benchmark datasets demonstrate that SemDINO consistently outperforms state-of-the-art methods on both semantic and binary change detection tasks. The results validate the effectiveness of alignment-oriented representation learning for robust remote sensing change analysis.
-
 Our Architecture:
 
 <img width="920" height="399" alt="image" src="https://github.com/user-attachments/assets/0e85a9e9-3819-4a6b-98b6-17c79c09adac" />
 
+## 🛠️ Environment Setup (Refer to https://bgithub.xyz/EasonXiao-888/MambaTree/edit/main/README.md)
+
+#### Vision Tasks
+```txt
+conda create -n GSTM-SCD python=3.10
+conda activate GSTM-SCD
+
+# Install pytorch 
+pip install torch==2.1.1+cu118 torchvision==0.16.1+cu118 torchaudio==2.1.1 --extra-index-url https://download.pytorch.org/whl/cu118
+
+# Install other packages
+pip install -r requirements.txt 
+
+# Install Vision_Tree_Scanning
+cd GrootV/third-party/TreeScan
+pip install -v -e .
+
+# Note: You'd better use CUDA 11.8.
+```
 
 ### 🧾Dataset: (Information and Download)
 
