@@ -16,14 +16,10 @@ conda create -n SemDINO python=3.8
 conda activate SemDINO
 
 # Install pytorch 
-pip install torch==2.1.1+cu118 torchvision==0.16.1+cu118 torchaudio==2.1.1 --extra-index-url https://download.pytorch.org/whl/cu118
+pip install torch==2.0.1+cu118 torchvision==0.15.2+cu118  --extra-index-url https://download.pytorch.org/whl/cu118
 
 # Install other packages
 pip install -r requirements.txt 
-
-# Install Vision_Tree_Scanning
-cd GrootV/third-party/TreeScan
-pip install -v -e .
 
 # Note: You'd better use CUDA 11.8.
 ```
