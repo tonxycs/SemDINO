@@ -66,7 +66,7 @@ How to use?  following this 🐶:
 2.
 3.
 ### Pred and Vis: (Follow the code above and it's very clear.)
-python pred.py (change the dataset and the best weight)
+python pred.py
 
 ## Cite SemDINO
 
