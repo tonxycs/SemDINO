@@ -1,6 +1,11 @@
 ## About SemDINO: *A multi-scale bidirectional temporal model with foundation priors, anti-pseudo-change capability and outstanding cross-dataset performance!*
 
-###  This repository is the official implementation:
+###  This repository is the official implementation:  [Paper]https://arxiv.org/abs/2606.09772
+
+## Release
+🔥## News ##: 2025/6/30: train code and train cli example updated.
+2025/6/15: superlightnet.py, pretrain pth updated.
+2025/3/2: SuperLightNet(draft) released.
 
 Our Architecture:
 
