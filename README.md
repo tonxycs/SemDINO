@@ -4,11 +4,14 @@
 [Paper] https://arxiv.org/abs/2606.09772
 
 ## Release
+
 🔥## News ##: 2025/6/30: train code and train cli example updated.
+
 2025/6/15: superlightnet.py, pretrain pth updated.
+
 2025/3/2: SuperLightNet(draft) released.
 
-Our Architecture:
+## Our Architecture:
 
 <img width="920" height="399" alt="image" src="https://github.com/user-attachments/assets/0e85a9e9-3819-4a6b-98b6-17c79c09adac" />
 
